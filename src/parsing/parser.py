@@ -4,7 +4,7 @@ import random
 root = pyprojroot.here()
 
 def _parse():
-    board_file = Path(root, 'data', 'gameboards.txt')
+    board_file = Path(root, 'data', 'rungs.txt')
     lines = open(board_file).read().splitlines()
     return random.choice(lines)
 
