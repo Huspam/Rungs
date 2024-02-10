@@ -1,3 +1,5 @@
+from timeit import default_timer as stopwatch
+
 class GameBoard():
     '''
     5 rung game board
@@ -19,6 +21,12 @@ class GameBoard():
             self.top_bottom_index[0] += 1
         else:
             self.top_bottom_index[1] -= 1
+
+    def timer(self, flag):
+        if flag == 'start':
+            self.time = stopwatch()
+        if flag == 'end':
+            self.time = round(stopwatch() - self.time, 2)
     
     def check_last(self):
         return len(self.board) + self.top_bottom_index[1] != self.top_bottom_index[0]
@@ -45,6 +53,9 @@ class GameBoard():
 
     def increment_wrong(self):
         self.wrong_guesses += 1
+    
+    def increment_score(self):
+        self.score += (len(self.board[self.cur_index][0])-self.board[self.cur_index][1])/len(self.board[self.cur_index][0])
 
     def update_board(self):
         if self.cur_guess or self.board[self.cur_index][1] == len(self.board[self.cur_index][0]):
@@ -63,8 +74,8 @@ class GameBoard():
     
     def show_analytics(self):
         print(f'Wrong guesses: {self.wrong_guesses}')
-        print(f'Score: {self.score}')
-        print(f'Time elapsed: {self.time}')
+        print(f'Score: {round(self.score/(len(self.board)-2), 4)*100}')
+        print(f'Time elapsed: {self.time} seconds')
     
 
 
