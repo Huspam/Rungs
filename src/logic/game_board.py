@@ -1,13 +1,18 @@
 from timeit import default_timer as stopwatch
+import sys
+import pyprojroot
+root = pyprojroot.here()
+sys.path.append(str(root))
+from src.parsing.parser import get_board
 
 class GameBoard():
     '''
-    5 rung game board
+    Rungs gameboard
     '''
     def __init__(self) -> None:
-        self.board = [['Apple', 5], ['Tree', 0], ['House', 0], ['Pet', 0], ['Sitter', 6]]
+        self.board = get_board() # random board from textfile
         self.wrong_guesses = 0
-        self.num_solved = 2
+        self.num_solved = 2 # first and last word are already solved
         self.score = 0
 
         self.cur_index = None
@@ -66,8 +71,8 @@ class GameBoard():
             self.cur_guess = False
     
     def show_board(self):
-        for word, state in self.board:
-            print(word[:state])
+        for i, (word, state) in enumerate(self.board):
+            print(f'{i+1}. {word[:state].upper()}')
 
     def check_board(self):
         return self.num_solved != len(self.board)
