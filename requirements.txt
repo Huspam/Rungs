@@ -1,1 +1,3 @@
 pyprojroot
+flask
+flask_socketio

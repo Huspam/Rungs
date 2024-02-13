@@ -1,9 +1,5 @@
 from timeit import default_timer as stopwatch
-import sys
-import pyprojroot
-root = pyprojroot.here()
-sys.path.append(str(root))
-from src.parsing.parser import get_board
+from board_create import get_board
 
 class GameBoard():
     '''
