@@ -12,14 +12,14 @@ class GameBoard():
     def __init__(self) -> None:
         self.board = get_board() # random board from text file
         self.wrong_guesses = 0
-        self.num_solved = 2 # first and last word are already solved
+        self._num_solved = 2 # first and last word are already solved
         self.score = 0
 
         self.cur_index = None
         self.top_bottom_index = [1, -2]
 
         self.time = 0
-        self.cur_guess = False
+        self._cur_guess = False
 
     def _update_top_bottom(self):
         if self.cur_index > 0:
@@ -50,8 +50,8 @@ class GameBoard():
         return invalid
 
     def guess_word(self, guess):
-        self.cur_guess = self.board[self.cur_index][0] == guess
-        return self.cur_guess
+        self._cur_guess = self.board[self.cur_index][0] == guess
+        return self._cur_guess
     
     def increment_word(self):
         self.board[self.cur_index][1] += 1
@@ -65,19 +65,19 @@ class GameBoard():
     def update_board(self):
         if self.board[self.cur_index][1] == len(self.board[self.cur_index][0]):
             print("Nice Try\n")
-        if self.cur_guess or self.board[self.cur_index][1] == len(self.board[self.cur_index][0]):
+        if self._cur_guess or self.board[self.cur_index][1] == len(self.board[self.cur_index][0]):
             self._update_top_bottom()
             self.board[self.cur_index][1] = len(self.board[self.cur_index][0])
             self.cur_index = None
-            self.num_solved += 1
-            self.cur_guess = False
+            self._num_solved += 1
+            self._cur_guess = False
     
     def show_board(self):
         for i, (word, state) in enumerate(self.board):
             print(f'{i+1}. {word[:state].upper()}')
 
     def check_board(self):
-        return self.num_solved != len(self.board)
+        return self._num_solved != len(self.board)
     
     def show_analytics(self):
         self._calc_score()
