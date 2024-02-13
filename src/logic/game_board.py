@@ -10,7 +10,7 @@ class GameBoard():
     Rungs gameboard
     '''
     def __init__(self) -> None:
-        self.board = get_board() # random board from textfile
+        self.board = get_board() # random board from text file
         self.wrong_guesses = 0
         self.num_solved = 2 # first and last word are already solved
         self.score = 0
@@ -63,6 +63,8 @@ class GameBoard():
         self.score += (len(self.board[self.cur_index][0])-self.board[self.cur_index][1])/len(self.board[self.cur_index][0])
 
     def update_board(self):
+        if self.board[self.cur_index][1] == len(self.board[self.cur_index][0]):
+            print("Nice Try\n")
         if self.cur_guess or self.board[self.cur_index][1] == len(self.board[self.cur_index][0]):
             self._update_top_bottom()
             self.board[self.cur_index][1] = len(self.board[self.cur_index][0])
@@ -78,12 +80,10 @@ class GameBoard():
         return self.num_solved != len(self.board)
     
     def show_analytics(self):
+        self._calc_score()
         print(f'Wrong guesses: {self.wrong_guesses}')
-        print(f'Score: {round(self.score/(len(self.board)-2), 4)*100}')
+        print(f'Score: {self.score}')
         print(f'Time elapsed: {self.time} seconds')
-    
 
-
-
-
-
+    def _calc_score(self):
+        self.score = round(100*self.score/(len(self.board)-2), 2)
